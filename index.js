@@ -1,14 +1,24 @@
 //Global variables
 const Employee = require('./lib/employee');
-// const Manager = require('lib/manager');
-// const Engineer = require('lib/engineer');
-// const Intern = require('lib/intern');
+const Manager = require('./lib/manager');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
+
 const employeeBooty = new Employee('dalton', 1, 'gmail');
+console.log(employeeBooty.getName());
+
+const managerBooty = new Manager(412);
+console.log(managerBooty.getId());
+
+const engineerBooty = new Engineer('dalto135');
+console.log(engineerBooty.getGithub());
+
+const internBooty = new Intern('osu');
+console.log(internBooty.getSchool());
 
 const inquirer = require('inquirer');
 const fs = require('fs');
 const util = require('util');
-// const Employee = require('./lib/employee');
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
@@ -31,14 +41,14 @@ function teamManager() {
     },
     {
       type: 'input',
-      name: 'office number',
+      name: 'officeNumber',
       message: 'Enter their office number',
     },
     {
       type: 'input',
       name: 'team',
       message: 'Would you like to add an engineer, intern, or finish building your team?',
-      choices: ['Engineer', 'Intern', 'Finish building team'],
+      choices: ["Engineer", "Intern", "Finish building team"],
     },
   ]);
 }
@@ -48,7 +58,7 @@ function engineer() {
       {
         type: 'input',
         name: 'name',
-        message: 'What is the name of your team manager?',
+        message: 'What is the name of your engineer?',
       },
       {
         type: 'input',
@@ -65,6 +75,12 @@ function engineer() {
         name: 'github',
         message: 'Enter their GitHub username',
       },
+      {
+        type: 'input',
+        name: 'team',
+        message: 'Would you like to add an engineer, intern, or finish building your team?',
+        choices: ["Engineer", "Intern", "Finish building team"],
+      },
     ]);
   }
 
@@ -73,7 +89,7 @@ function engineer() {
       {
         type: 'input',
         name: 'name',
-        message: 'What is the name of your team manager?',
+        message: 'What is the name of your intern?',
       },
       {
         type: 'input',
@@ -89,6 +105,12 @@ function engineer() {
         type: 'input',
         name: 'school',
         message: 'What school do they attend?',
+      },
+      {
+        type: 'input',
+        name: 'team',
+        message: 'Would you like to add an engineer, intern, or finish building your team?',
+        choices: ["Engineer", "Intern", "Finish building team"],
       },
     ]);
   }
@@ -109,9 +131,7 @@ const generateHTML = (answers) =>
 
         <section id="teammanager">
             <h2>Team Manager</h2>
-            <div>
-                <h2>Info</h2>
-            </div>
+            ${answers.teamManager}
             
             
         </section>
@@ -119,17 +139,13 @@ const generateHTML = (answers) =>
         <section id="employees">
             <section id="engineers">
                 <h2>Engineers</h2>
-                <div>
-                    <p>Info</p>
-                </div>
+                ${answers.engineer}
                 
             </section>
     
             <section id="interns">
                 <h2>Interns</h2>
-                <div>
-                    <p>Info</p>
-                </div>
+                ${answers.intern}
                 
             </section>
         </section>
@@ -140,12 +156,30 @@ const generateHTML = (answers) =>
 `;
 
 function init() {
-  promptUser()
+
+
+  teamManager()
     .then(function(answers) {
-        writeFileAsync('../index.html', generateHTML(answers));
+        // writeFileAsync('../dist/index.html', generateHTML(answers));
+        let managerArray = [answers.name, answers.id, answers.email, answers.officeNumber, answers.team];
+        console.log(managerArray);
+        if (answers.team === 'Engineer') {
+          engineer()
+            .then(function(answers) {
+              let engineerArray = [answers.name, answers.id, answers.email, answers.github, answers.team];
+              console.log(engineerArray);
+            })
+        }
+        if (answers.team === 'Intern') {
+          intern()
+            .then(function(answers) {
+              let internArray = [answers.name, answers.id, answers.email, answers.school, answers.team];
+              console.log(internArray);
+            })
+        }
     })
     .then(function() {
-        console.log('Successfully wrote to README.md');
+        // console.log('Successfully wrote to index.html');
     })
     .catch(function(err) {
         console.error(err);
