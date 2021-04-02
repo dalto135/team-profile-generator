@@ -1,0 +1,38 @@
+/* Creates a thin border and even spacing around every element */
+* {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 4px;
+    padding: 4px;
+    font-family: eurostile, sans-serif;
+    font-weight: normal;
+    color: black;
+}
+
+/* Color variables defined */
+:root {
+    --grey: rgb(32, 32, 40);
+    --blue: rgb(0, 0, 64);
+    --teal: rgb(0, 80, 80);
+    --green: rgb(0, 128, 64);
+    --mint: rgb(0, 192, 96);
+    --red: rgb(128, 0, 64);
+
+    --cloudy: rgba(255, 255, 255, 0.5);
+    --pastelGreen: rgba(144, 223, 160, 0.75);
+    --pastelBlue: rgba(128, 186, 255, 0.75);
+    --pastelRed: rgba(223, 144, 174, 0.75);
+    --pastelTeal: rgba(128, 206, 206, 0.75);
+}
+
+section {
+    display: block;
+}
+
+#employees {
+    display: flex;
+}
+
+#employees section {
+    flex: 1 1;
+}
