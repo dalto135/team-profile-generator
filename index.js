@@ -1,12 +1,14 @@
 //Global variables
-const Employee = require('lib/employee');
-const Manager = require('lib/manager');
-const Engineer = require('lib/engineer');
-const Intern = require('lib/intern');
+const Employee = require('./lib/employee');
+// const Manager = require('lib/manager');
+// const Engineer = require('lib/engineer');
+// const Intern = require('lib/intern');
+const employeeBooty = new Employee('dalton', 1, 'gmail');
 
 const inquirer = require('inquirer');
 const fs = require('fs');
 const util = require('util');
+// const Employee = require('./lib/employee');
 
 const writeFileAsync = util.promisify(fs.writeFile);
 

@@ -6,7 +6,7 @@ describe('Employee class', () => {
         it('returns this.name', () => {
             const employee1 = new Employee('dalton', 1, 'gmail');
             employee1.getName();
-            expect('dalton');
+            expect(this.name).toBe('dalton');
         });
     });
 
@@ -14,7 +14,7 @@ describe('Employee class', () => {
         it('returns this.id', () => {
             const employee2 = new Employee('dalton', 1, 'gmail');
             employee2.getId();
-            expect(1);
+            expect(this.id).toBe(1);
         });
     });
 
@@ -22,7 +22,7 @@ describe('Employee class', () => {
         it('returns this.email', () => {
             const employee3 = new Employee('dalton', 1, 'gmail');
             employee3.getEmail();
-            expect('gmail');
+            expect(this.email).toBe('gmail');
         })
     })
 });
