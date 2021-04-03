@@ -14,6 +14,29 @@ const util = require('util');
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
+function addMember() {
+  inquirer.prompt([
+    {
+      type: 'list',
+      name: 'team',
+      message: 'Would you like to add an engineer, intern, or finish building your team?',
+      choices: ['Engineer', 'Intern', 'Finish building team'],
+    },
+  ])
+  .then(answers => {
+    switch(answers.team) {
+      case 'Engineer':
+        engineer()
+        break;
+      case 'Intern':
+        intern()
+        break;
+      default:
+        break;
+    }
+  })
+}
+
 function teamManager() {
   return inquirer.prompt([
     {
@@ -36,14 +59,16 @@ function teamManager() {
       name: 'officeNumber',
       message: 'Enter their office number',
     },
-    {
-      type: 'input',
-      name: 'team',
-      message: 'Would you like to add an engineer, intern, or finish building your team?',
-      choices: ['Engineer', 'Intern', 'Finish building team'],
-    },
-  ]);
+  ])
+  .then(answers => {
+    const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+    managerDiv.push(JSON.stringify(manager));
+    console.log('managerDiv: ' + managerDiv);
+    addMember();
+  })
 }
+
+
 
 function engineer() {
     return inquirer.prompt([
@@ -67,13 +92,13 @@ function engineer() {
         name: 'github',
         message: 'Enter their GitHub username',
       },
-      {
-        type: 'input',
-        name: 'team',
-        message: 'Would you like to add an engineer, intern, or finish building your team?',
-        choices: ["Engineer", "Intern", "Finish building team"],
-      },
-    ]);
+    ])
+    .then(answers => {
+      const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+      engineerDiv.push(JSON.stringify(engineer));
+      console.log('engineerDiv: ' + engineerDiv);
+      addMember();
+    })
   }
 
   function intern() {
@@ -98,13 +123,13 @@ function engineer() {
         name: 'school',
         message: 'What school do they attend?',
       },
-      {
-        type: 'input',
-        name: 'team',
-        message: 'Would you like to add an engineer, intern, or finish building your team?',
-        choices: ["Engineer", "Intern", "Finish building team"],
-      },
-    ]);
+    ])
+    .then(answers => {
+      const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+      internDiv.push(JSON.stringify(intern));
+      console.log('internDiv: ' + internDiv);
+      addMember();
+    })
   }
 
 const generateHTML = () =>
@@ -146,66 +171,12 @@ const generateHTML = () =>
 </html>
 `;
 
-// function createIntern(answers) {
-  
-//     if (answers.team === 'Engineer') {
-//       createEngineer();
-//     }
-//     if (answers.team === 'Intern') {
-//       createIntern(answers);
-//     }
-// }
-
 function init() {
 
 
   teamManager()
     .then(function(answers) {
-
-        let manager1 = new Manager(answers.officeNumber);
-        manager1.setName(answers.name);
-        manager1.setId(answers.id);
-        manager1.setEmail(answers.email);
-
-        managerDiv.push(['Name: ' + manager1.name, 'ID: ' + manager1.id, 'Email: ' + manager1.email, 'Office Number: ' + manager1.officeNumber]);
-        console.log('managerDiv: ' + JSON.stringify(managerDiv));
-
-        if (answers.team === 'Engineer') {
-          engineer()
-            .then(function(answers) {
-
-              let engineer1 = new Engineer(answers.github);
-              engineer1.setName(answers.name);
-              engineer1.setId(answers.id);
-              engineer1.setEmail(answers.email);
-
-              engineerDiv.push(['Name: ' + engineer1.name, 'ID: ' + engineer1.id, 'Email: ' + engineer1.email, 'GitHub: ' + engineer1.github]);
-              console.log('managerDiv: ' + JSON.stringify(managerDiv));
-              console.log('engineerDiv: ' + JSON.stringify(engineerDiv));
-
-            })
-            .catch(function(err) {
-              console.error(err);
-          });
-        }
-        if (answers.team === 'Intern') {
-          intern()
-            .then(function(answers) {
-
-              let intern1 = new Intern(answers.school);
-              intern1.setName(answers.name);
-              intern1.setId(answers.id);
-              intern1.setEmail(answers.email);
-
-              internDiv.push(['Name: ' + intern1.name, 'ID: ' + intern1.id, 'Email: ' + intern1.email, 'School: ' + intern1.school]);
-              console.log('managerDiv: ' + JSON.stringify(managerDiv));
-              console.log('internDiv: ' + JSON.stringify(internDiv));
-
-            })
-            .catch(function(err) {
-              console.error(err);
-            });
-        }
+      console.log('answers: ' + answers);
     })
     .then(function(answers) {
       writeFileAsync('dist/index.html', generateHTML());
