@@ -4,17 +4,9 @@ const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 
-const employeeBooty = new Employee('dalton', 1, 'gmail');
-console.log(employeeBooty.getName());
-
-const managerBooty = new Manager(412);
-console.log(managerBooty.getId());
-
-const engineerBooty = new Engineer('dalto135');
-console.log(engineerBooty.getGithub());
-
-const internBooty = new Intern('osu');
-console.log(internBooty.getSchool());
+let managerDiv = [];
+let engineerDiv = [];
+let internDiv = [];
 
 const inquirer = require('inquirer');
 const fs = require('fs');
@@ -48,7 +40,7 @@ function teamManager() {
       type: 'input',
       name: 'team',
       message: 'Would you like to add an engineer, intern, or finish building your team?',
-      choices: ["Engineer", "Intern", "Finish building team"],
+      choices: ['Engineer', 'Intern', 'Finish building team'],
     },
   ]);
 }
@@ -115,14 +107,14 @@ function engineer() {
     ]);
   }
 
-const generateHTML = (answers) =>
+const generateHTML = () =>
 `
 <!DOCTYPE html>
 <html>
     <head>
         <title>Team Profile Generator</title>
-        <link rel="stylesheet" href="assets/reset.css"/>
-        <link rel="stylesheet" href="assets/style.css"/>
+        <link rel="stylesheet" href="reset.css"/>
+        <link rel="stylesheet" href="style.css"/>
     </head>
     <body>
         <header>
@@ -131,7 +123,7 @@ const generateHTML = (answers) =>
 
         <section id="teammanager">
             <h2>Team Manager</h2>
-            ${answers.teamManager}
+            <p>${managerDiv}</p>
             
             
         </section>
@@ -139,47 +131,85 @@ const generateHTML = (answers) =>
         <section id="employees">
             <section id="engineers">
                 <h2>Engineers</h2>
-                ${answers.engineer}
+                <p>${engineerDiv}</p>
                 
             </section>
     
             <section id="interns">
                 <h2>Interns</h2>
-                ${answers.intern}
+                <p>${internDiv}</p>
                 
             </section>
         </section>
 
-        <script src="assets/index.js"></script>
     </body>
 </html>
 `;
+
+// function createIntern(answers) {
+  
+//     if (answers.team === 'Engineer') {
+//       createEngineer();
+//     }
+//     if (answers.team === 'Intern') {
+//       createIntern(answers);
+//     }
+// }
 
 function init() {
 
 
   teamManager()
     .then(function(answers) {
-        // writeFileAsync('../dist/index.html', generateHTML(answers));
-        let managerArray = [answers.name, answers.id, answers.email, answers.officeNumber, answers.team];
-        console.log(managerArray);
+
+        let manager1 = new Manager(answers.officeNumber);
+        manager1.setName(answers.name);
+        manager1.setId(answers.id);
+        manager1.setEmail(answers.email);
+
+        managerDiv.push(['Name: ' + manager1.name, 'ID: ' + manager1.id, 'Email: ' + manager1.email, 'Office Number: ' + manager1.officeNumber]);
+        console.log('managerDiv: ' + JSON.stringify(managerDiv));
+
         if (answers.team === 'Engineer') {
           engineer()
             .then(function(answers) {
-              let engineerArray = [answers.name, answers.id, answers.email, answers.github, answers.team];
-              console.log(engineerArray);
+
+              let engineer1 = new Engineer(answers.github);
+              engineer1.setName(answers.name);
+              engineer1.setId(answers.id);
+              engineer1.setEmail(answers.email);
+
+              engineerDiv.push(['Name: ' + engineer1.name, 'ID: ' + engineer1.id, 'Email: ' + engineer1.email, 'GitHub: ' + engineer1.github]);
+              console.log('managerDiv: ' + JSON.stringify(managerDiv));
+              console.log('engineerDiv: ' + JSON.stringify(engineerDiv));
+
             })
+            .catch(function(err) {
+              console.error(err);
+          });
         }
         if (answers.team === 'Intern') {
           intern()
             .then(function(answers) {
-              let internArray = [answers.name, answers.id, answers.email, answers.school, answers.team];
-              console.log(internArray);
+
+              let intern1 = new Intern(answers.school);
+              intern1.setName(answers.name);
+              intern1.setId(answers.id);
+              intern1.setEmail(answers.email);
+
+              internDiv.push(['Name: ' + intern1.name, 'ID: ' + intern1.id, 'Email: ' + intern1.email, 'School: ' + intern1.school]);
+              console.log('managerDiv: ' + JSON.stringify(managerDiv));
+              console.log('internDiv: ' + JSON.stringify(internDiv));
+
             })
+            .catch(function(err) {
+              console.error(err);
+            });
         }
     })
-    .then(function() {
-        // console.log('Successfully wrote to index.html');
+    .then(function(answers) {
+      writeFileAsync('dist/index.html', generateHTML());
+      console.log('Wrote to index.html');
     })
     .catch(function(err) {
         console.error(err);
