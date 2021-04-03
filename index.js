@@ -1,12 +1,12 @@
 //Global variables
-const Employee = require('./lib/employee');
+// const Employee = require('./lib/employee');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 
-let managerDiv = [];
-let engineerDiv = [];
-let internDiv = [];
+let managerDiv = '';
+let engineerDiv = '';
+let internDiv = '';
 
 const inquirer = require('inquirer');
 const fs = require('fs');
@@ -15,7 +15,7 @@ const util = require('util');
 const writeFileAsync = util.promisify(fs.writeFile);
 
 function addMember() {
-  inquirer.prompt([
+  return inquirer.prompt([
     {
       type: 'list',
       name: 'team',
@@ -32,6 +32,8 @@ function addMember() {
         intern()
         break;
       default:
+        writeFileAsync('dist/index.html', generateHTML());
+        console.log('Wrote to index.html');
         break;
     }
   })
@@ -62,7 +64,8 @@ function teamManager() {
   ])
   .then(answers => {
     const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-    managerDiv.push(JSON.stringify(manager));
+    // managerDiv += JSON.stringify(manager);
+    managerDiv += `<p>Name: ${manager.name}, ID: ${manager.id}, Email: ${manager.email}, Office Number: ${manager.officeNumber}</p>`;
     console.log('managerDiv: ' + managerDiv);
     addMember();
   })
@@ -95,7 +98,8 @@ function engineer() {
     ])
     .then(answers => {
       const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-      engineerDiv.push(JSON.stringify(engineer));
+      // engineerDiv += JSON.stringify(engineer);
+      engineerDiv += `<p>Name: ${engineer.name}, ID: ${engineer.id}, Email: ${engineer.email}, GitHub: ${engineer.github}</p>`;
       console.log('engineerDiv: ' + engineerDiv);
       addMember();
     })
@@ -126,7 +130,8 @@ function engineer() {
     ])
     .then(answers => {
       const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-      internDiv.push(JSON.stringify(intern));
+      // internDiv += JSON.stringify(intern);
+      internDiv += `<p>Name: ${intern.name}, ID: ${intern.id}, Email: ${intern.email}, School: ${intern.school}</p>`;
       console.log('internDiv: ' + internDiv);
       addMember();
     })
@@ -148,7 +153,7 @@ const generateHTML = () =>
 
         <section id="teammanager">
             <h2>Team Manager</h2>
-            <p>${managerDiv}</p>
+            ${managerDiv}
             
             
         </section>
@@ -156,13 +161,13 @@ const generateHTML = () =>
         <section id="employees">
             <section id="engineers">
                 <h2>Engineers</h2>
-                <p>${engineerDiv}</p>
+                ${engineerDiv}
                 
             </section>
     
             <section id="interns">
                 <h2>Interns</h2>
-                <p>${internDiv}</p>
+                ${internDiv}
                 
             </section>
         </section>
@@ -176,11 +181,11 @@ function init() {
 
   teamManager()
     .then(function(answers) {
-      console.log('answers: ' + answers);
+      // console.log('answers: ' + answers);
     })
     .then(function(answers) {
-      writeFileAsync('dist/index.html', generateHTML());
-      console.log('Wrote to index.html');
+      
+      
     })
     .catch(function(err) {
         console.error(err);
