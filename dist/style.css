@@ -27,12 +27,55 @@
 
 section {
     display: block;
+    border-width: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 #employees {
     display: flex;
 }
 
+#engineers, #interns, #teammanager {
+    border-width: 1px;
+    padding: 4px;
+    margin: 4px;
+}
+
 #employees section {
     flex: 1 1;
+    display: block;
+}
+
+#engineers div, #interns div, #teammanager div {
+    border-color: black;
+}
+
+#teammanager {
+    border-color: var(--niceTeal);
+}
+
+#teammanager h2 {
+    background-color: var(--pastelBlue);
+}
+
+#engineers h2, #interns h2 {
+    background-color: var(--pastelTeal);
+}
+
+div {
+    background-color: var(--cloudy);
+}
+
+#engineers section, #interns section, #teammanager section {
+    display: flex;
+}
+
+p, a {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0px;
+}
+
+h1 {
+    background-color: var(--pastelGreen);
 }

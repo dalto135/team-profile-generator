@@ -65,7 +65,16 @@ function teamManager() {
   .then(answers => {
     const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
     // managerDiv += JSON.stringify(manager);
-    managerDiv += `<p>Name: ${manager.name}, ID: ${manager.id}, Email: ${manager.email}, Office Number: ${manager.officeNumber}</p>`;
+    managerDiv += 
+    `
+    <div>
+      <p>Name: ${manager.name}</p>
+      <p>Role: ${manager.getRole()}</p>
+      <p>ID: ${manager.id}</p>
+      <p>Email: <a href='mailto:${manager.email}'>${manager.email}</a></p>
+      <p>Office Number: ${manager.officeNumber}</p>
+    </div>
+    `;
     console.log('managerDiv: ' + managerDiv);
     addMember();
   })
@@ -99,7 +108,16 @@ function engineer() {
     .then(answers => {
       const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
       // engineerDiv += JSON.stringify(engineer);
-      engineerDiv += `<p>Name: ${engineer.name}, ID: ${engineer.id}, Email: ${engineer.email}, GitHub: ${engineer.github}</p>`;
+      engineerDiv += 
+      `
+      <div>
+        <p>Name: ${engineer.name}</p>
+        <p>Role: ${engineer.getRole()}</p>
+        <p>ID: ${engineer.id}</p>
+        <p>Email: <a href='mailto:${engineer.email}'>${engineer.email}</a></p>
+        <p>GitHub: <a href='https://github.com/${engineer.github}' target='_blank'>${engineer.github}</a></p>
+      </div>
+      `;
       console.log('engineerDiv: ' + engineerDiv);
       addMember();
     })
@@ -131,7 +149,16 @@ function engineer() {
     .then(answers => {
       const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
       // internDiv += JSON.stringify(intern);
-      internDiv += `<p>Name: ${intern.name}, ID: ${intern.id}, Email: ${intern.email}, School: ${intern.school}</p>`;
+      internDiv += 
+      `
+      <div>
+        <p>Name: ${intern.name}</p>
+        <p>Role: ${intern.getRole()}</p>
+        <p>ID: ${intern.id}</p>
+        <p>Email: <a href='mailto:${intern.email}'>${intern.email}</a></p>
+        <p>School: ${intern.school}</p>
+      </div>
+      `;
       console.log('internDiv: ' + internDiv);
       addMember();
     })
@@ -142,13 +169,13 @@ const generateHTML = () =>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Team Profile Generator</title>
+        <title>My Team</title>
         <link rel="stylesheet" href="reset.css"/>
         <link rel="stylesheet" href="style.css"/>
     </head>
     <body>
         <header>
-            <h1>Team Profile Generator</h1>
+            <h1>My Team</h1>
         </header>
 
         <section id="teammanager">
@@ -161,13 +188,17 @@ const generateHTML = () =>
         <section id="employees">
             <section id="engineers">
                 <h2>Engineers</h2>
-                ${engineerDiv}
+                <section>
+                  ${engineerDiv}
+                </section>
                 
             </section>
     
             <section id="interns">
                 <h2>Interns</h2>
-                ${internDiv}
+                <section>
+                  ${internDiv}
+                </section>
                 
             </section>
         </section>
