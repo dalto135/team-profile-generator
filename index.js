@@ -1,5 +1,4 @@
 //Global variables
-// const Employee = require('./lib/employee');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
@@ -64,7 +63,6 @@ function teamManager() {
   ])
   .then(answers => {
     const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-    // managerDiv += JSON.stringify(manager);
     managerDiv += 
     `
     <div>
@@ -75,7 +73,6 @@ function teamManager() {
       <p>Office Number: ${manager.officeNumber}</p>
     </div>
     `;
-    console.log('managerDiv: ' + managerDiv);
     addMember();
   })
 }
@@ -107,7 +104,6 @@ function engineer() {
     ])
     .then(answers => {
       const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-      // engineerDiv += JSON.stringify(engineer);
       engineerDiv += 
       `
       <div>
@@ -118,7 +114,6 @@ function engineer() {
         <p>GitHub: <a href='https://github.com/${engineer.github}' target='_blank'>${engineer.github}</a></p>
       </div>
       `;
-      console.log('engineerDiv: ' + engineerDiv);
       addMember();
     })
   }
@@ -148,7 +143,6 @@ function engineer() {
     ])
     .then(answers => {
       const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-      // internDiv += JSON.stringify(intern);
       internDiv += 
       `
       <div>
@@ -159,7 +153,6 @@ function engineer() {
         <p>School: ${intern.school}</p>
       </div>
       `;
-      console.log('internDiv: ' + internDiv);
       addMember();
     })
   }
@@ -208,16 +201,7 @@ const generateHTML = () =>
 `;
 
 function init() {
-
-
   teamManager()
-    .then(function(answers) {
-      // console.log('answers: ' + answers);
-    })
-    .then(function(answers) {
-      
-      
-    })
     .catch(function(err) {
         console.error(err);
     });
