@@ -10,7 +10,7 @@
 [Contact](#Contact)
 
 ## Video
-[Link](https://drive.google.com/file/d/1BFWDQtt1H4gPY9Oy5kghrWrARYtPOmyv/view)
+[Link](https://drive.google.com/file/d/1LPSM2_k7ZmseQ8p0_Klk8PrHS0nDXuFk/view)
 
 ## Technologies
 HTML, CSS, Javascript, Node.js
