@@ -26,9 +26,15 @@ function addMember() {
     switch(answers.team) {
       case 'Engineer':
         engineer()
+        .catch(function(err) {
+          console.error(err);
+      });
         break;
       case 'Intern':
         intern()
+        .catch(function(err) {
+          console.error(err);
+      });
         break;
       default:
         writeFileAsync('dist/index.html', generateHTML());
@@ -66,11 +72,11 @@ function teamManager() {
     managerDiv += 
     `
     <div>
-      <p>Name: ${manager.name}</p>
+      <p>Name: ${manager.getName()}</p>
       <p>Role: ${manager.getRole()}</p>
-      <p>ID: ${manager.id}</p>
-      <p>Email: <a href='mailto:${manager.email}'>${manager.email}</a></p>
-      <p>Office Number: ${manager.officeNumber}</p>
+      <p>ID: ${manager.getId()}</p>
+      <p>Email: <a href='mailto:${manager.getEmail()}'>${manager.getEmail()}</a></p>
+      <p>Office Number: ${manager.getOfficeNumber()}</p>
     </div>
     `;
     addMember();
@@ -107,11 +113,11 @@ function engineer() {
       engineerDiv += 
       `
       <div>
-        <p>Name: ${engineer.name}</p>
+        <p>Name: ${engineer.getName()}</p>
         <p>Role: ${engineer.getRole()}</p>
-        <p>ID: ${engineer.id}</p>
-        <p>Email: <a href='mailto:${engineer.email}'>${engineer.email}</a></p>
-        <p>GitHub: <a href='https://github.com/${engineer.github}' target='_blank'>${engineer.github}</a></p>
+        <p>ID: ${engineer.getId()}</p>
+        <p>Email: <a href='mailto:${engineer.getEmail()}'>${engineer.getEmail()}</a></p>
+        <p>GitHub: <a href='https://github.com/${engineer.getGithub()}' target='_blank'>${engineer.getGithub()}</a></p>
       </div>
       `;
       addMember();
@@ -146,11 +152,11 @@ function engineer() {
       internDiv += 
       `
       <div>
-        <p>Name: ${intern.name}</p>
+        <p>Name: ${intern.getName()}</p>
         <p>Role: ${intern.getRole()}</p>
-        <p>ID: ${intern.id}</p>
-        <p>Email: <a href='mailto:${intern.email}'>${intern.email}</a></p>
-        <p>School: ${intern.school}</p>
+        <p>ID: ${intern.getId()}</p>
+        <p>Email: <a href='mailto:${intern.getEmail()}'>${intern.getEmail()}</a></p>
+        <p>School: ${intern.getSchool()}</p>
       </div>
       `;
       addMember();
