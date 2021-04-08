@@ -2,6 +2,8 @@
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
+const emailValidatorRegex = require("email-validator");
+//npm i email-validator
 
 let managerDiv = '';
 let engineerDiv = '';
@@ -44,27 +46,61 @@ function addMember() {
   })
 }
 
+const nameValidator = async (input) => {
+  const nameValid = /^[A-Za-z]+$/.test(input);
+  if (!nameValid) {
+    return 'Name must only contain letters'; 
+  }
+  
+  return true;
+};
+const idValidator = async (input) => {
+  const idValid = /^[0-9]+$/.test(input);
+  if (!idValid) {
+    return 'ID must only contain numbers'; 
+  }
+  return true;
+};
+const emailValidator = async (input) => {
+  const emailValid = emailValidatorRegex.validate(input);
+  if (!emailValid) {
+    return 'Not a valid email address'; 
+  }
+  return true;
+};
+const officeNumberValidator = async (input) => {
+  const officeNumberValid = /^[0-9]+$/.test(input);
+  if (!officeNumberValid) {
+    return 'Office Number must only contain numbers'; 
+  }
+  return true;
+};
+
 function teamManager() {
   return inquirer.prompt([
     {
       type: 'input',
       name: 'name',
       message: 'What is the name of your team manager?',
+      validate: nameValidator,
     },
     {
       type: 'input',
       name: 'id',
       message: 'Enter their employee ID?',
+      validate: idValidator,
     },
     {
       type: 'input',
       name: 'email',
       message: 'Enter their email address',
+      validate: emailValidator,
     },
     {
       type: 'input',
       name: 'officeNumber',
       message: 'Enter their office number',
+      validate: officeNumberValidator,
     },
   ])
   .then(answers => {
@@ -91,16 +127,19 @@ function engineer() {
         type: 'input',
         name: 'name',
         message: 'What is the name of your engineer?',
+        validate: nameValidator,
       },
       {
         type: 'input',
         name: 'id',
         message: 'Enter their employee ID?',
+        validate: idValidator,
       },
       {
         type: 'input',
         name: 'email',
         message: 'Enter their email address',
+        validate: emailValidator,
       },
       {
         type: 'input',
@@ -130,16 +169,19 @@ function engineer() {
         type: 'input',
         name: 'name',
         message: 'What is the name of your intern?',
+        validate: nameValidator,
       },
       {
         type: 'input',
         name: 'id',
         message: 'Enter their employee ID?',
+        validate: idValidator,
       },
       {
         type: 'input',
         name: 'email',
         message: 'Enter their email address',
+        validate: emailValidator,
       },
       {
         type: 'input',
