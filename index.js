@@ -31,17 +31,19 @@ function addMember() {
         .catch(function(err) {
           console.error(err);
       });
-        break;
+      break;
+
       case 'Intern':
         intern()
         .catch(function(err) {
           console.error(err);
       });
-        break;
+      break;
+
       default:
         writeFileAsync('dist/index.html', generateHTML());
         console.log('Wrote to index.html');
-        break;
+      break;
     }
   })
 }
