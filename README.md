@@ -22,4 +22,4 @@ A command line application that allows the user to create a team of engineers an
 MIT
 
 ## Contact
-Dalton Wilkins - wilkins.271@osu.edu
+Dalton Wilkins - daltongh@gmail.com
